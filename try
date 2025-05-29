@@ -1,0 +1,44 @@
+#include <iostream>
+#include <thread>
+#include <chrono>
+using namespace std;
+
+class TrafficLight {
+public:
+    enum State { RED, GREEN, YELLOW };
+
+    void run(int cycles) {
+        for (int i = 0; i < cycles; ++i) {
+            setState(RED);
+            wait(3);
+
+            setState(GREEN);
+            wait(5);
+
+            setState(YELLOW);
+            wait(2);
+        }
+    }
+
+private:
+    void setState(State s) {
+        state = s;
+        switch (state) {
+            case RED: cout << "Light: RED\n"; break;
+            case GREEN: cout << "Light: GREEN\n"; break;
+            case YELLOW: cout << "Light: YELLOW\n"; break;
+        }
+    }
+
+    void wait(int seconds) {
+        this_thread::sleep_for(chrono::seconds(seconds));
+    }
+
+    State state;
+};
+
+int main() {
+    TrafficLight light;
+    light.run(3);  
+    return 0;
+}
